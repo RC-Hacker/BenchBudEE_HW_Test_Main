@@ -29,8 +29,6 @@ void ledModuleTestMain(void)
 
   // No need to change anything else in this function --
   menuLoop("LED Module Test Menu", ledMenu, MENU_SIZE(ledMenu));
-  
-  return;
 }
 
 // Define the test implementations below --
@@ -41,8 +39,6 @@ static void ledModuleTestA(void)
   Serial.println("LED Module Test A in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void ledModuleTestB(void)
@@ -50,8 +46,6 @@ static void ledModuleTestB(void)
   Serial.println("LED Module Test B in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void ledModuleTestC(void)
@@ -59,8 +53,6 @@ static void ledModuleTestC(void)
   Serial.println("LED Module Test C in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 

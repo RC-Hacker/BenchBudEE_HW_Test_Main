@@ -40,8 +40,6 @@ menuLoop(const String    header,
     menuPrint(header, aMenu, size);
   } while (menuSelectionExecute(aMenu, size) == false);
   menuClear();
-  
-  return;
 }
 
 
@@ -67,8 +65,6 @@ menuClear(void)
   Serial.write(27);    // ESC
   Serial.print("[H");  // cursor to home
 #endif //ARDUINO_SERIAL_MONITOR
-
-  return;
 }
 
 
@@ -82,8 +78,6 @@ menuHeaderPrint(const String aHeader)
   Serial.print("--++ ");
   Serial.print(aHeader);
   Serial.println(" ++--");
-  
-  return;
 }
 
 
@@ -105,8 +99,6 @@ menuPrint(const String    header,
   }  
   Serial.println("Please select or E to exit");
   Serial.println("");
-  
-  return;
 }
 
 

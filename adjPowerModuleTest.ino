@@ -29,8 +29,6 @@ void adjPowerModuleTestMain(void)
 
   // No need to change anything else in this function --
   menuLoop("Adjustable Power Module Test Menu", adjPowerMenu, MENU_SIZE(adjPowerMenu));
-  
-  return;
 }
 
 // Define the test implementations below --
@@ -41,8 +39,6 @@ static void adjPowerModuleTestA(void)
   Serial.println("Adjustable Power Module Test A in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void adjPowerModuleTestB(void)
@@ -50,8 +46,6 @@ static void adjPowerModuleTestB(void)
   Serial.println("Adjustable Power Module Test B in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void adjPowerModuleTestC(void)
@@ -59,8 +53,6 @@ static void adjPowerModuleTestC(void)
   Serial.println("Adjustable Power Module Test C in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 

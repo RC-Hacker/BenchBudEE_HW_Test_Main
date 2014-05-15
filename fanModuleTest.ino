@@ -29,8 +29,6 @@ void fanModuleTestMain(void)
 
   // No need to change anything else in this function --
   menuLoop("Fan Module Test Menu", fanMenu, MENU_SIZE(fanMenu));
-  
-  return;
 }
 
 // Define the test implementations below --
@@ -41,8 +39,6 @@ static void fanModuleTestA(void)
   Serial.println("Fan Module Test A in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void fanModuleTestB(void)
@@ -50,8 +46,6 @@ static void fanModuleTestB(void)
   Serial.println("Fan Module Test B in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void fanModuleTestC(void)
@@ -59,8 +53,6 @@ static void fanModuleTestC(void)
   Serial.println("Fan Module Test C in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 

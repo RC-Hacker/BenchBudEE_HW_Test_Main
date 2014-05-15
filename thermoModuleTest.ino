@@ -29,8 +29,6 @@ void thermoModuleTestMain(void)
 
   // No need to change anything else in this function --
   menuLoop("Thermocouple Module Test Menu", thermoMenu, MENU_SIZE(thermoMenu));
-  
-  return;
 }
 
 // Define the test implementations below --
@@ -41,8 +39,6 @@ static void thermoModuleTestA(void)
   Serial.println("Thermocouple Module Test A in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void thermoModuleTestB(void)
@@ -50,8 +46,6 @@ static void thermoModuleTestB(void)
   Serial.println("Thermocouple Module Test B in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }
 
 static void thermoModuleTestC(void)
@@ -59,6 +53,4 @@ static void thermoModuleTestC(void)
   Serial.println("Thermocouple Module Test C in progress...");
   delay(1000);
   Serial.println("Success!");
-  
-  return;
 }

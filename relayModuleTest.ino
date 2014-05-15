@@ -6,13 +6,17 @@
 
 #include "relayModuleTest.h"
 #include "menuUtility.h"
+#include "Relay.h"
 
 // Declare prototypes for tests here --
 //  These are dummy examples and should be replaced.
 //
-static void relayModuleTestA(void);
-static void relayModuleTestB(void);
-static void relayModuleTestC(void);
+static void relayModuleOff(void);
+static void relayModuleOn(void);
+static void relayModuleStatus(void);
+static void relayModuleToggle(void);
+
+static Relay relay(relayPin);
 
 // relayModuleTestMain --
 //  This is the main entry point for the Relay Module Test menu
@@ -22,47 +26,67 @@ void relayModuleTestMain(void)
   // Replace the menu entries in the array with the real tests.
   // See menuUtility.h for details.
   const menuLine relayMenu[] = {
-  {1, "Relay Test A", relayModuleTestA},
-  {2, "Relay Test B", relayModuleTestB},
-  {3, "Relay Test C", relayModuleTestC},
+  {1, "Turn on the relay", relayModuleOn},
+  {2, "Turn off the relay", relayModuleOff},
+  {3, "Toggle the relay", relayModuleToggle},
+  {4, "Get relay status", relayModuleStatus},
   };
 
   // No need to change anything else in this function --
   menuLoop("Relay Module Test Menu", relayMenu, MENU_SIZE(relayMenu));
-  
-  return;
 }
 
-// Define the test implementations below --
-//  These are dummy examples and should be replaced.
+// relayModuleOff --
+// Turn off the relay
 //
-static void relayModuleTestA(void)
+static void relayModuleOff(void)
 {
-  Serial.println("Relay Module Test A in progress...");
+  relay.off();
+  Serial.println("The relay is now off");
   delay(1000);
-  Serial.println("Success!");
-  
-  return;
 }
 
-static void relayModuleTestB(void)
+// relayModuleOn --
+// Turn off the relay
+//
+static void relayModuleOn(void)
 {
-  Serial.println("Relay Module Test B in progress...");
+  relay.on();
+  Serial.println("The relay is now on");
   delay(1000);
-  Serial.println("Success!");
-  
-  return;
 }
 
-static void relayModuleTestC(void)
+// relayModuleToggle --
+// Toggle the state of the relay
+//
+static void relayModuleToggle(void)
 {
-  Serial.println("Relay Module Test C in progress...");
+  bool savedState = relay.isOn();
+  relay.toggle();
+  Serial.print("Changed the relay state from ");
+  if (savedState)
+    Serial.println("on to off");
+  else
+    Serial.println("off to on");
+    
   delay(1000);
-  Serial.println("Success!");
-  
-  return;
 }
 
+// relayModuleStatus --
+// Toggle the state of the relay
+//
+static void relayModuleStatus(void)
+{
+  bool savedState = relay.isOn();
+  relay.toggle();
+  Serial.print("The relay is ");
+  if (relay.isOn())
+    Serial.println("on");
+  else
+    Serial.println("off");
+    
+  delay(1000);
+}
 
 
   
