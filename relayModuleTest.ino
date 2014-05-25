@@ -77,8 +77,6 @@ static void relayModuleToggle(void)
 //
 static void relayModuleStatus(void)
 {
-  bool savedState = relay.isOn();
-  relay.toggle();
   Serial.print("The relay is ");
   if (relay.isOn())
     Serial.println("on");
