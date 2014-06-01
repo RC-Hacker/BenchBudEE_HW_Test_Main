@@ -5,12 +5,14 @@
 //  BenchBudEE HW Checkout and Test program.
 //
 
+#include <SPI.h>
 #include "menuUtility.h"
 #include "fanModuleTest.h"
 #include "thermoModuleTest.h"
 #include "ledModuleTest.h"
 #include "adjPowerModuleTest.h"
 #include "relayModuleTest.h"
+
 
 void ledModuleTestMain(void);
 

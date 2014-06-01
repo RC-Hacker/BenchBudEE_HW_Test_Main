@@ -4,6 +4,7 @@
 //  Relay Module Test suit
 //
 
+#include "BenchBudEePins.h"
 #include "relayModuleTest.h"
 #include "menuUtility.h"
 #include "Relay.h"
@@ -16,7 +17,7 @@ static void relayModuleOn(void);
 static void relayModuleStatus(void);
 static void relayModuleToggle(void);
 
-static Relay relay(relayPin);
+static Relay relay(RELAY_CONTROL_PIN);
 
 // relayModuleTestMain --
 //  This is the main entry point for the Relay Module Test menu

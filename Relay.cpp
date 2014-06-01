@@ -27,7 +27,7 @@ Relay::~Relay(void)
 }
 
 // Relay isOff --
-//  Returns ture if the relay is de-enervized.  Returns false otherwise.
+//  Returns true if the relay is de-enervized.  Returns false otherwise.
 //
 bool
 Relay::isOff(void) const
