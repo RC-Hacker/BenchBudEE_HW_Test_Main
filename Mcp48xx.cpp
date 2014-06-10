@@ -72,10 +72,6 @@ Mcp48xx::Mcp48xx(int       dacSelectPin,
   pinMode(i_dacSelectPin, OUTPUT);
   digitalWrite(i_dacSelectPin, HIGH);
   
-  // Initilize the SPI interface --
-  //
-  SPI.setDataMode(SPI_MODE0);
-  SPI.setBitOrder(MSBFIRST); 
   SPI.begin();
   
   // Initialize the DAC to a resonable state --
