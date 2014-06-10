@@ -53,21 +53,29 @@ static const int  DAC_INPUT_MASK      = 0x0FFF;
 Mcp48xx::Mcp48xx(int       dacSelectPin,  
                  GainMode  gainMode,
                  int       ldacPin,
+                 Precision precision,
                  int       shdnPin)
 : i_dacSelectPin(dacSelectPin),
   i_gainMode(gainMode),
   i_ldacPin(ldacPin),
+  i_precision(precision),
   i_shdnPin(shdnPin),
   i_dacControlValue(0),
+  i_dacMillivolts(0),
   i_isOn(0)
 {
 
   // Initialize pins and initial settings --
   //
-  pinMode(i_shdnPin, OUTPUT);
-
-  pinMode(i_ldacPin, OUTPUT);
-  digitalWrite(i_ldacPin, LOW);
+  if (isShdnPinConnected())
+  {
+      pinMode(i_shdnPin, OUTPUT);
+  }
+  
+  if (isLdacPinConneted())
+  {
+      pinMode(i_ldacPin, OUTPUT);
+  }
 
   pinMode(i_dacSelectPin, OUTPUT);
   digitalWrite(i_dacSelectPin, HIGH);
@@ -82,6 +90,7 @@ Mcp48xx::Mcp48xx(int       dacSelectPin,
   //
   off();
   set(0);
+  ldacCommit();
 }
 
 // Mcp48xx destructor --
@@ -92,24 +101,16 @@ Mcp48xx::~Mcp48xx(void)
   //
    off();
    set(0);
+   ldacCommit();
    
    SPI.end();
-}
-
-// DAC Get --
-//  Return the current DAC control word setting.
-//
-unsigned int
-Mcp48xx::get(void) const
-{
-  return(i_dacControlValue);
 }
 
 // Dac Set --
 //  Set the DAC output to the value provided.
 //
 Mcp48xx::DacStatus
-Mcp48xx::set(unsigned int controlValue)
+Mcp48xx::rawSet(unsigned int controlValue)
 {
   DacStatus  status   = DAC_OK;
   
@@ -122,6 +123,10 @@ Mcp48xx::set(unsigned int controlValue)
   }
   else
   {
+  
+  // TODO: Round per precision
+  // TODO: save the contol value
+  //
     unsigned int command =  MCP48XX_COMMAND_HEADER_FIELD_SET
                           | MCP48XX_COMMAND_GAIN_FIELD_SET((i_gainMode == GAIN_MODE_ONE_X) ? GAIN_1X : GAIN_2X)
                           | MCP48XX_COMMAND_SHUTDOWN_FIELD_SET(i_isOn ? ACTIVE : SHUTDOWN)
@@ -145,34 +150,24 @@ Mcp48xx::set(unsigned int controlValue)
   return(status);
 }
 
-// Gain Mode Get --
-//  Return the current gain mode setting.
-//
-Mcp48xx::GainMode
-Mcp48xx::gainModeGet(void) const
-{
-  return(i_gainMode);
-}
-
-// Gain Mode Set --
-//  Set the gain mode as requested.
-//
-void
-Mcp48xx::gainModeSet(GainMode   gainMode)
-{
-  i_gainMode  = gainMode;
-}
-
 // DAC output off --
 //  Turn off the DAC output.
 //
 void
 Mcp48xx::off(void)
 {
-  // Assert the active-low DAC shutdown pin --
-  //
-  digitalWrite(i_shdnPin, LOW);
   i_isOn  = false;
+  
+  if (i_shdnPin >= 0)
+  {
+      // Assert the active-low DAC shutdown pin --
+      //
+      digitalWrite(i_shdnPin, LOW);
+  }
+  else // If the LDAC control is not connected then must send command to DAC to shutdown the output
+  {
+      rawSet(i_controlValue);
+  }
 }
 
 // Dac output on --
