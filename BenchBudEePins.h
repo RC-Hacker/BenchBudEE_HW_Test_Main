@@ -25,5 +25,11 @@ const int  FAN_MODE_PIN        =  0;
 const int  FAN_PWM_PIN         =  10;
 const int  FAN_SHDN_PIN        =  2;
 
+// --++ Adjustable Power Module Pins ++--
+// Adjustable Power Module Analog channels --
+//
+const int  V_POS_ADJ_MON_PIN   = 0;
+const int  V_NEG_ADJ_MON_PIN   = 1;
+
 
 #endif // BENCH_BUDEE_PINS_H
