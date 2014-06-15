@@ -13,6 +13,7 @@
 static void fanModuleDacStairstep(void);
 static void fanModulePwmLevels(void);
 static void fanModuleQ3Test(void);
+static void fanModuleFanPwmTest(void);
 
 // fanModuleTestMain --
 // This is the main entry point for the Fan Module Test menu
@@ -25,6 +26,7 @@ void fanModuleTestMain(void)
   {1, "Start DAC Stairstep Test", fanModuleDacStairstep},
   {2, "PWM Levels Test", fanModulePwmLevels},
   {3, "Q3 Test", fanModuleQ3Test},
+  {4, "FAN PWM Test", fanModuleFanPwmTest},
   };
 
   // No need to change anything else in this function --
@@ -150,9 +152,9 @@ static void fanModuleQ3Test(void)
   digitalWrite(FAN_MODE_PIN, LOW);
   
   // Setup the DAC ouput --
-  //  Set the DAC to output to 8 mV
+  //  Set the DAC to output to 80 mV
   dac.on();
-  if (dac.set(16) != Mcp48xx::DAC_OK)
+  if (dac.set(160) != Mcp48xx::DAC_OK)
   {
     Serial.println("Error setting DAC control value. Exiting test");
   }
@@ -176,5 +178,71 @@ static void fanModuleQ3Test(void)
   
   // Turn off the PWM MOSFET and DAC output before exiting --
   //
+  dac.off();
+}
+
+static void fanModuleFanPwmTest(void)
+{
+  Mcp48xx  dac(FAN_DAC_SELECT_PIN,
+               Mcp48xx::GAIN_MODE_ONE_X,
+               FAN_LDAC_PIN,
+               FAN_SHDN_PIN);
+  
+  // Set FAN PWM low to disable PWM MOSFET --
+  //
+  pinMode(FAN_PWM_PIN, OUTPUT);
+  digitalWrite(FAN_PWM_PIN, LOW);
+  
+  // Configure the Fan Mode pin --
+  //
+  pinMode(FAN_MODE_PIN, OUTPUT);
+  digitalWrite(FAN_MODE_PIN, LOW);
+  
+  // Setup the DAC ouput --
+  //  Set the DAC to output to 80 mV
+  dac.on();
+  if (dac.set(160) != Mcp48xx::DAC_OK)
+  {
+    Serial.println("Error setting DAC control value. Exiting test");
+  } 
+  
+  else
+  {
+    int pwmLevel = 4;
+    int pwmValue = 0;
+    
+    Serial.println("PWM 3 Level Test in progress. Enter any key to stop.");
+    digitalWrite(FAN_MODE_PIN, HIGH);
+    do
+    {
+      pwmValue = map(pwmLevel, 0, 4, 0, 255); // Map values 0-3 to 0-255
+      analogWrite(FAN_PWM_PIN, pwmValue);
+      
+      Serial.print("PWM Value = ");
+      Serial.println(pwmValue);
+      Serial.println("");
+ 
+      delay(5000);     
+
+      // At end of PWM levels, turn off PWM fan mode for 5 seconds --
+      //
+      if (--pwmLevel < 0)
+      {
+        pwmLevel = 4;
+        digitalWrite(FAN_MODE_PIN, LOW);
+        Serial.println("Fan PWM Mode off");
+        delay(5000);
+        digitalWrite(FAN_MODE_PIN, HIGH);
+        Serial.println("Fan PWM Mode on");
+      }
+    } while (Serial.available() == 0);
+    
+    // Get input and discard it --
+    Serial.read();
+  }
+  
+  // Turn off the PWM MOSFET and DAC output before exiting --
+  //
+  digitalWrite(FAN_PWM_PIN, LOW);
   dac.off();
 }
