@@ -19,11 +19,11 @@ const int  FAN_TACH_MEAS_PIN      = 3;
 
 // Fan Digital channels --
 //
-const int  FAN_DAC_SELECT_PIN  =  7;
-const int  FAN_LDAC_PIN        =  3;
-const int  FAN_MODE_PIN        =  0;
-const int  FAN_PWM_PIN         =  10;
-const int  FAN_SHDN_PIN        =  2;
+const int  FAN_DAC_SELECT_PIN  =   7;
+const int  FAN_LDAC_PIN        =  -1;  // Not connected
+const int  FAN_MODE_PIN        =   3;
+const int  FAN_PWM_PIN         =   10;
+const int  FAN_SHDN_PIN        =   2;
 
 // --++ Adjustable Power Module Pins ++--
 // Adjustable Power Module Analog channels --

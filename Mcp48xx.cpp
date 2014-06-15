@@ -66,8 +66,14 @@ Mcp48xx::Mcp48xx(int       dacSelectPin,
   //
   pinMode(i_shdnPin, OUTPUT);
 
-  pinMode(i_ldacPin, OUTPUT);
-  digitalWrite(i_ldacPin, LOW);
+  // Init the LDAC pin if connected --
+  //   A negative setting for the LDAC pin
+  //   indicates that it is not connected.
+  if (i_ldacPin >= 0) 
+  {
+    pinMode(i_ldacPin, OUTPUT);
+    digitalWrite(i_ldacPin, LOW);
+  }
 
   pinMode(i_dacSelectPin, OUTPUT);
   digitalWrite(i_dacSelectPin, HIGH);

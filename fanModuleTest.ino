@@ -12,6 +12,7 @@
 //
 static void fanModuleDacStairstep(void);
 static void fanModulePwmLevels(void);
+static void fanModuleQ3Test(void);
 
 // fanModuleTestMain --
 // This is the main entry point for the Fan Module Test menu
@@ -23,6 +24,7 @@ void fanModuleTestMain(void)
   const menuLine fanMenu[] = {
   {1, "Start DAC Stairstep Test", fanModuleDacStairstep},
   {2, "PWM Levels Test", fanModulePwmLevels},
+  {3, "Q3 Test", fanModuleQ3Test},
   };
 
   // No need to change anything else in this function --
@@ -126,5 +128,53 @@ static void fanModulePwmLevels(void)
   // Turn off the PWM MOSFET and DAC output before exiting --
   //
   digitalWrite(FAN_PWM_PIN, LOW);
+  dac.off();
+}
+
+static void fanModuleQ3Test(void)
+{
+  Mcp48xx  dac(FAN_DAC_SELECT_PIN,
+               Mcp48xx::GAIN_MODE_ONE_X,
+               FAN_LDAC_PIN,
+               FAN_SHDN_PIN);
+  uint8_t  fanMode  = LOW;
+  
+  // Set FAN PWM low to disable PWM MOSFET --
+  //
+  pinMode(FAN_PWM_PIN, OUTPUT);
+  digitalWrite(FAN_PWM_PIN, fanMode);
+  
+  // Configure the Fan Mode pin --
+  //
+  pinMode(FAN_MODE_PIN, OUTPUT);
+  digitalWrite(FAN_MODE_PIN, LOW);
+  
+  // Setup the DAC ouput --
+  //  Set the DAC to output to 8 mV
+  dac.on();
+  if (dac.set(16) != Mcp48xx::DAC_OK)
+  {
+    Serial.println("Error setting DAC control value. Exiting test");
+  }
+  
+  else
+  {
+    Serial.println("Q3 Test in progress. Enter any key to stop.");
+    
+    do
+    {
+      // Toggle fan mode and delay --
+      fanMode  = ((fanMode == HIGH) ? LOW : HIGH);
+      digitalWrite(FAN_MODE_PIN, fanMode);
+      delay(5000);
+
+    } while (Serial.available() == 0);
+    
+    // Get input and discard it --
+    Serial.read();
+  }
+  
+  // Turn off the PWM MOSFET and DAC output before exiting --
+  //
   dac.off();
 }
